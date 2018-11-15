@@ -1,5 +1,6 @@
 // debug_rep.h
 #pragma once
+#include <stdio.h>
 #include <sstream>
 #include <string>
 
@@ -21,8 +22,18 @@ inline std::string debug_rep(T* p) {
   return ret.str();
 }
 
-inline std::string debug_rep(const std::string& s) { return '"' + s + '"'; }
+// inline std::string debug_rep(const std::string& s) { return '"' + s + '"'; }
+//
+// inline std::string debug_rep(const char* p) {
+//  return ::debug_rep(std::string(p));
+//}
 
+template <>
 inline std::string debug_rep(const char* p) {
-  return ::debug_rep(std::string(p));
+  return '"' + std::string(p) + '"';
+}
+
+template <>
+inline std::string debug_rep(char* p) {
+  return ::debug_rep(static_cast<const char*>(p));
 }
